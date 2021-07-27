@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private float _speed = 3f;
     [SerializeField] private float _jumpPower = 5f;
     [SerializeField] private float _groundRayLength = 1f;
     [SerializeField] private LayerMask _groundLayer = 0;
 
     private Rigidbody2D _rigidbody;
-    private bool _isGrounded = false;
     private bool _isJumpResetNeeded = false;
 
     private void Awake()
@@ -22,39 +22,34 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
-        CheckGrounded();
     }
 
     private void Movement()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-
-        // Jump
-        if (Input.GetButtonDown("Jump") && _isGrounded)
-        {
-            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpPower);
-            _isGrounded = false;
-            _isJumpResetNeeded = true;
-            StartCoroutine(ResetJumpNeededRoutine());
-        }
+        float x = Input.GetAxisRaw("Horizontal") * _speed;
 
         _rigidbody.velocity = new Vector2(x, _rigidbody.velocity.y);
-    }
 
-    private void CheckGrounded()
-    {
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, _groundRayLength, _groundLayer);
-        Debug.DrawRay(transform.position, Vector2.down * _groundRayLength, Color.green);
-
-        if (hitInfo.collider != null)
-        {
-            if (!_isJumpResetNeeded)
-                _isGrounded = true;
+        if (Input.GetButtonDown("Jump") && IsGrounded()) {
+            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpPower);
+            StartCoroutine(ResetJumpRoutine());
         }
     }
 
-    private IEnumerator ResetJumpNeededRoutine()
+    private bool IsGrounded()
     {
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.down, _groundRayLength, _groundLayer);
+
+        if (hitInfo.collider)
+            if (!_isJumpResetNeeded)
+                return true;
+
+        return false;
+    }
+
+    private IEnumerator ResetJumpRoutine()
+    {
+        _isJumpResetNeeded = true;
         yield return new WaitForSeconds(0.1f);
         _isJumpResetNeeded = false;
     }
