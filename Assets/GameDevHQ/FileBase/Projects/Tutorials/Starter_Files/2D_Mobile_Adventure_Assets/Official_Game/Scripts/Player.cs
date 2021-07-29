@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     private bool _isJumpResetNeeded = false;
     private PlayerAnimation _animation;
     private SpriteRenderer _sprite;
+    [SerializeField] private SpriteRenderer _swordSprite;
+    [SerializeField] private float _swordSpriteX = 1.01f;
     private bool _isGrounded = false;
 
     private void Awake()
@@ -31,12 +33,20 @@ public class Player : MonoBehaviour
         if (!_sprite)
             Debug.LogError(name + ": SpriteRenderer component not found in children!");
 
+        if (!_swordSprite)
+            Debug.LogError(name + ": Sword SpriteRenderer component not assigned!");
+
         #endregion
     }
 
     void Update()
     {
         Movement();
+
+        if (Input.GetButtonDown("Fire1") && IsGrounded())
+        {
+            _animation.Attack();
+        }
     }
 
     private void Movement()
@@ -65,10 +75,23 @@ public class Player : MonoBehaviour
         if (horizontalMovement < 0)
         {
             _sprite.flipX = true;
+            _swordSprite.flipX = true;
+            _swordSprite.flipY = true;
+
+            Vector3 newPosition = _swordSprite.transform.localPosition;
+            newPosition.x = _swordSpriteX * -1f;
+            _swordSprite.transform.localPosition = newPosition;
+
         }
         else if (horizontalMovement > 0)
         {
             _sprite.flipX = false;
+            _swordSprite.flipX = false;
+            _swordSprite.flipY = false;
+
+            Vector3 newPosition = _swordSprite.transform.localPosition;
+            newPosition.x = _swordSpriteX;
+            _swordSprite.transform.localPosition = newPosition;
         }
     }
 
