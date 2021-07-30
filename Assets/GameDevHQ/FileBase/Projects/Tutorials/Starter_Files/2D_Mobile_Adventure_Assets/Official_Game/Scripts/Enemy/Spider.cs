@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class Spider : Enemy
 {
     public override void Attack()
@@ -9,3 +9,4 @@ public class Spider : Enemy
         Debug.Log(name + " bites you--you lose " + damage + " health points!");
     }
 }
+*/
