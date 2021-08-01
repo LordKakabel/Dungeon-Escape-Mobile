@@ -9,10 +9,13 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int _gems;
     [SerializeField] protected int _damage;
     [SerializeField] protected Transform _pointA, _pointB;
+    [SerializeField] protected float _detectionRadius = 2f;
 
     protected Vector3 _target;
     protected Animator _animator;
     protected SpriteRenderer _sprite;
+    protected bool _isHit = false;
+    protected Player _player;
 
     private void Start()
     {
@@ -29,6 +32,10 @@ public abstract class Enemy : MonoBehaviour
         if (!_sprite)
             Debug.LogError(name + ": SpriteRenderer component not found in children!");
 
+        _player = FindObjectOfType<Player>();
+        if (!_player)
+            Debug.LogError(name + ": Player GameObject not found in scene!");
+
         _target = _pointB.position;
     }
 
@@ -42,7 +49,7 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         // If Idle animation is playing,
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && _animator.GetBool("IsInCombat")==false)
             return;
 
         Movement();
@@ -66,6 +73,14 @@ public abstract class Enemy : MonoBehaviour
             _animator.SetTrigger("Idle");
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
+        if (_isHit == false)
+            transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
+
+        float distance = Vector3.Distance(transform.position, _player.transform.position);
+        if (distance > _detectionRadius)
+        {
+            _isHit = false;
+            _animator.SetBool("IsInCombat", false);
+        }
     }
 }

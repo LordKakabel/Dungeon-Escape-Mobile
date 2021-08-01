@@ -2,8 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MossGiant : Enemy
+public class MossGiant : Enemy, IDamageable
 {
+    public int Health { get; set; }
+
+    protected override void Init()
+    {
+        base.Init();
+    }
+
     protected override void SayHello()
     {
         base.SayHello();
@@ -12,5 +19,10 @@ public class MossGiant : Enemy
     protected override void Attack()
     {
         Debug.Log("I'll smash you for " + _damage + " points of damage!");
+    }
+
+    public void Damage()
+    {
+        
     }
 }
