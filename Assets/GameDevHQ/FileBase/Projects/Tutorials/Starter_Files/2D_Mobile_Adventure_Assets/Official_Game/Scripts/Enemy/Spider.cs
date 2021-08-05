@@ -8,4 +8,9 @@ public class Spider : Enemy
     {
         Debug.Log(name + " bites you--you lose " + _damage + " health points!");
     }
+
+    protected override void Movement()
+    {
+        // No movement
+    }
 }

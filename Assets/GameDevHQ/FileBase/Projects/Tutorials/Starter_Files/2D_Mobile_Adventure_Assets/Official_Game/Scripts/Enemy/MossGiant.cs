@@ -9,6 +9,7 @@ public class MossGiant : Enemy, IDamageable
     protected override void Init()
     {
         base.Init();
+        Health = _health;
     }
 
     protected override void SayHello()
@@ -16,6 +17,7 @@ public class MossGiant : Enemy, IDamageable
         base.SayHello();
         Debug.Log("I like long walks through the swamp.");
     }
+
     protected override void Attack()
     {
         Debug.Log("I'll smash you for " + _damage + " points of damage!");
@@ -23,6 +25,12 @@ public class MossGiant : Enemy, IDamageable
 
     public void Damage()
     {
-        
+        _isHit = true;
+        _animator.SetTrigger("Hit");
+        _animator.SetBool("IsInCombat", true);
+        Health--;
+
+        if (Health < 1)
+            Destroy(transform.parent.gameObject);
     }
 }

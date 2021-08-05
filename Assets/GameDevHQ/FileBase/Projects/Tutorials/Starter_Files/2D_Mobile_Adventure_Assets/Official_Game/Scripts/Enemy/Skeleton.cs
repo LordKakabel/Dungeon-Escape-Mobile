@@ -25,6 +25,6 @@ public class Skeleton : Enemy, IDamageable
 
     protected override void Attack()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Skeleton attacks with sword for " + _damage + " points of damage!");
     }
 }
