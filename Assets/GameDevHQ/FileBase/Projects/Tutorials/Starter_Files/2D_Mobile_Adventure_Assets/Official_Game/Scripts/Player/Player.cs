@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     [SerializeField] private float _speed = 3f;
     [SerializeField] private float _jumpPower = 5f;
@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     [SerializeField] private SpriteRenderer _swordSprite;
     [SerializeField] private float _swordSpriteX = 1.01f;
     private bool _isGrounded = false;
+
+    public int Health { get; set; }
 
     private void Awake()
     {
@@ -117,5 +119,10 @@ public class Player : MonoBehaviour
         _isJumpResetNeeded = true;
         yield return new WaitForSeconds(0.1f);
         _isJumpResetNeeded = false;
+    }
+
+    public void Damage()
+    {
+        Debug.Log("Player hit!");
     }
 }

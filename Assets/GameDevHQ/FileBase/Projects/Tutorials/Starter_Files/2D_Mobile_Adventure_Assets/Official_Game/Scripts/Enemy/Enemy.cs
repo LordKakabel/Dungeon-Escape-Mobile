@@ -82,5 +82,15 @@ public abstract class Enemy : MonoBehaviour
             _isHit = false;
             _animator.SetBool("IsInCombat", false);
         }
+
+        Vector3 direction = _player.transform.position - transform.position;
+        if (direction.x > 0 && _animator.GetBool("IsInCombat") == true)
+        {
+            _sprite.flipX = false;
+        }
+        else if (direction.x < 0 && _animator.GetBool("IsInCombat") == true)
+        {
+            _sprite.flipX = true;
+        }
     }
 }
