@@ -16,6 +16,7 @@ public abstract class Enemy : MonoBehaviour
     protected SpriteRenderer _sprite;
     protected bool _isHit = false;
     protected Player _player;
+    protected bool _isDead = false;
 
     private void Start()
     {
@@ -48,8 +49,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        // If Idle animation is playing,
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && _animator.GetBool("IsInCombat")==false)
+        // If Idle animation is playing OR we are dead,
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && _animator.GetBool("IsInCombat")==false || _isDead)
             return;
 
         Movement();

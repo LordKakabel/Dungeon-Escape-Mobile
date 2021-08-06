@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class SpiderAnimationEvent : MonoBehaviour
 {
+    private Spider _spider;
+
+    private void Start()
+    {
+        _spider = GetComponentInParent<Spider>();
+        if (!_spider)
+            Debug.Log(name + ": Spdier script not found in parent!");
+    }
+
     public void Fire()
     {
-        Debug.Log("Spdier should fire.");
+        _spider.Fire();
     }
 }

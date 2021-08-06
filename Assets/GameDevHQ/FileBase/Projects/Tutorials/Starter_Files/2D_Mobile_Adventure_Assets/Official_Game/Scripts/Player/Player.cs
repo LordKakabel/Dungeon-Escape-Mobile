@@ -16,6 +16,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private SpriteRenderer _swordSprite;
     [SerializeField] private float _swordSpriteX = 1.01f;
     private bool _isGrounded = false;
+    private bool _isDead = false;
 
     public int Health { get; set; }
 
@@ -43,6 +44,9 @@ public class Player : MonoBehaviour, IDamageable
 
     void Update()
     {
+        if (_isDead)
+            return;
+
         Movement();
 
         if (Input.GetButtonDown("Fire1") && IsGrounded())
@@ -123,6 +127,11 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
-        Debug.Log("Player hit!");
+        if (!_isDead)
+        {
+            _animation.Die();
+            _isDead = true;
+            _rigidbody.velocity = Vector2.zero;
+        }
     }
 }

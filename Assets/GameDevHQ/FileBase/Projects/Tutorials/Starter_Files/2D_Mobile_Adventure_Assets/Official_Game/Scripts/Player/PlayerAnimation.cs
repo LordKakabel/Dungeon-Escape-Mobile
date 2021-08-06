@@ -32,4 +32,9 @@ public class PlayerAnimation : MonoBehaviour
         _animator.SetTrigger("Attack");
         _swordArcAnimator.SetTrigger("Attack");
     }
+
+    public void Die()
+    {
+        _animator.SetTrigger("Death");
+    }
 }
