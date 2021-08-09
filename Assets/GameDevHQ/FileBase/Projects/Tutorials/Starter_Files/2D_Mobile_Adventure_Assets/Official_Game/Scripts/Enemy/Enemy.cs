@@ -25,6 +25,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Init()
     {
+        #region Null Checks
+
         _animator = GetComponentInChildren<Animator>();
         if (!_animator)
             Debug.LogError(name + ": Animator component not found in children!");
@@ -36,6 +38,8 @@ public abstract class Enemy : MonoBehaviour
         _player = FindObjectOfType<Player>();
         if (!_player)
             Debug.LogError(name + ": Player GameObject not found in scene!");
+
+        #endregion
 
         _target = _pointB.position;
     }
@@ -92,6 +96,20 @@ public abstract class Enemy : MonoBehaviour
         else if (direction.x < 0 && _animator.GetBool("IsInCombat") == true)
         {
             _sprite.flipX = true;
+        }
+    }
+
+    protected void DropDiamond()
+    {
+        GameObject diamondInstance = Instantiate(
+            Resources.Load("Diamond") as GameObject,
+            transform.position,
+            Quaternion.identity);
+
+        Diamond diamond = diamondInstance.GetComponent<Diamond>();
+        if (diamond != null)
+        {
+            diamond.AssignValue(_gems);
         }
     }
 }

@@ -51,6 +51,7 @@ public class Spider : Enemy, IDamageable
 
         if (Health < 1)
         {
+            DropDiamond();
             _animator.SetTrigger("Death");
             _isDead = true;
         }

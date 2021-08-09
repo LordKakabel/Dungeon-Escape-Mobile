@@ -8,6 +8,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float _jumpPower = 5f;
     [SerializeField] private float _groundRayLength = 1f;
     [SerializeField] private LayerMask _groundLayer = 0;
+    [SerializeField] private int _health = 4;
 
     private Rigidbody2D _rigidbody;
     private bool _isJumpResetNeeded = false;
@@ -17,12 +18,13 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float _swordSpriteX = 1.01f;
     private bool _isGrounded = false;
     private bool _isDead = false;
+    private int _diamonds = 0;
 
     public int Health { get; set; }
 
     private void Awake()
     {
-        #region NullCheck
+        #region Null Checks
 
         _rigidbody = GetComponent<Rigidbody2D>();
         if (!_rigidbody)
@@ -40,6 +42,14 @@ public class Player : MonoBehaviour, IDamageable
             Debug.LogError(name + ": Sword SpriteRenderer component not assigned!");
 
         #endregion
+
+        Health = _health;
+    }
+
+    private void Start()
+    {
+        UIManager.Instance.UpdateCurrencyDisplay();
+        UIManager.Instance.UpdateHealth(Health);
     }
 
     void Update()
@@ -129,9 +139,26 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (!_isDead)
         {
-            _animation.Die();
-            _isDead = true;
-            _rigidbody.velocity = Vector2.zero;
+            Health--;
+            UIManager.Instance.UpdateHealth(Health);
+
+            if (Health <= 0)
+            {
+                _animation.Die();
+                _isDead = true;
+                _rigidbody.velocity = Vector2.zero;
+            }
         }
+    }
+
+    public void AddDiamonds(int value)
+    {
+        _diamonds += value;
+        UIManager.Instance.UpdateCurrencyDisplay();
+    }
+
+    public int Diamonds()
+    {
+        return _diamonds;
     }
 }
