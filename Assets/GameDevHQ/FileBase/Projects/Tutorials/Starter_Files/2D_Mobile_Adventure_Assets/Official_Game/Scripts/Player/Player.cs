@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -59,7 +60,11 @@ public class Player : MonoBehaviour, IDamageable
 
         Movement();
 
-        if (Input.GetButtonDown("Fire1") && IsGrounded())
+        // Old Code:
+        //if (Input.GetButtonDown("Fire1") && IsGrounded())
+
+        // New Code:
+        if (CrossPlatformInputManager.GetButtonDown("Fire1") && IsGrounded())
         {
             _animation.Attack();
         }
@@ -69,12 +74,20 @@ public class Player : MonoBehaviour, IDamageable
     {
         _isGrounded = IsGrounded();
 
-        float horizontalMovement = Input.GetAxisRaw("Horizontal");
+        // Old Code:
+        // float horizontalMovement = Input.GetAxisRaw("Horizontal");
+
+        // New Code:
+        float horizontalMovement = CrossPlatformInputManager.GetAxisRaw("Horizontal");
 
         HandleFlip(horizontalMovement);
 
         // Jump
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+        // Old Code:
+        //if (Input.GetButtonDown("Jump") && _isGrounded)
+
+        // New Code
+        if (CrossPlatformInputManager.GetButtonDown("Jump") && _isGrounded)
         {
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpPower);
             StartCoroutine(ResetJumpRoutine());

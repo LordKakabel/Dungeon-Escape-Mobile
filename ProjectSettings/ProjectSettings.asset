@@ -695,10 +695,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: d8ac28f9-2002-44f7-b116-002c2f8d1729
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Dungeon Escape Mobile
+  organizationId: ryan-sweigart
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
