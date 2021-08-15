@@ -5,6 +5,7 @@ using UnityEngine.Advertisements;
 
 public class AdsManager : MonoBehaviour
 {
+    [SerializeField] private int _rewardedAdValue = 100;
     public void ShowRewardedAd()
     {
         // Check if ad is ready
@@ -30,7 +31,7 @@ public class AdsManager : MonoBehaviour
                 Debug.Log("Ad was skipped.");
                 break;
             case ShowResult.Finished:
-                Debug.Log("Ad viewed. +100 D.");
+                GameManager.Instance.Player.AddDiamonds(_rewardedAdValue);
                 break;
             default:
                 break;

@@ -20,16 +20,15 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public bool HasCastleKey { get; set; }
+    public Player Player { get; private set; }
 
     private void Awake()
     {
         _instance = this;
 
-        /*if (!_playerCurrencyCountText)
-            Debug.LogError(name + ": Player Currency Count Text object is not assigned!");
-
-        if (!_selectionImage)
-            Debug.LogError(name + ": Selection Image transform not assigned!");*/
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        if (!Player)
+            Debug.LogError(name + ": Player GameObject not found!");
     }
 
 }
