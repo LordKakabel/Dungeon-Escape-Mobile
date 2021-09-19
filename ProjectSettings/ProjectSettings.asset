@@ -251,7 +251,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/lordk/Documents/Keystore Files/Dungeon Escape Keystore.keystore
+  AndroidKeystoreName: C:/Users/lordk/Documents/Keystore Files/DungeonEscapeKeystoreNEW.keystore
   AndroidKeyaliasName: dungeon escape
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1

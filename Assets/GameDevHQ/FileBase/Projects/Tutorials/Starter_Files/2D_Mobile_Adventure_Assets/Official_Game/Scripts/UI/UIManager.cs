@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject _winPanel = null;
     [SerializeField] GameObject _pausePanel = null;
     [SerializeField] GameObject _resumeButton = null;
+    [SerializeField] GameObject _adsButton = null;
 
 
     private Player _player;
@@ -58,6 +59,9 @@ public class UIManager : MonoBehaviour
 
         if (!_resumeButton)
             Debug.LogError(name + ": Resume button GameObject not assigned!");
+
+        if (!_adsButton)
+            Debug.LogError(name + ": Ads button GameObject not assigned!");
     }
 
     private void Start()
@@ -119,7 +123,7 @@ public class UIManager : MonoBehaviour
     {
         _winPanel.SetActive(true);
 
-        // Pause
+        TogglePause();
     }
 
     public void ReloadGame()
@@ -140,7 +144,9 @@ public class UIManager : MonoBehaviour
     {
         if (_winPanel.activeSelf)
         {
+            _pausePanel.SetActive(true);
             _resumeButton.SetActive(false);
+            Time.timeScale = 0;
         }
         else
         {
@@ -155,5 +161,10 @@ public class UIManager : MonoBehaviour
                 Time.timeScale = 1;
             }
         }
+    }
+
+    public void WatchedAd()
+    {
+        _adsButton.SetActive(false);
     }
 }
