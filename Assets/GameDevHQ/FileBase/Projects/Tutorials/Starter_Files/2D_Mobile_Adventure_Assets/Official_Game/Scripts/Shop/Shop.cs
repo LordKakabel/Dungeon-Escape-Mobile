@@ -77,7 +77,6 @@ public class Shop : MonoBehaviour
             {
                 case 2:
                     GameManager.Instance.HasCastleKey = true;
-                    UIManager.Instance.BoughtKey();
                     break;
                 default:
                     break;
