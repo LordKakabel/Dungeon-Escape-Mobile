@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -9,6 +10,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _HUDPlayerCurrencyCountText = null;
     [SerializeField] RectTransform _selectionImage = null;
     [SerializeField] GameObject[] _healthBars = new GameObject[0];
+    [SerializeField] GameObject _key = null;
+    [SerializeField] GameObject _objective = null;
+    [SerializeField] float _messageDisplayDuration = 3f;
+    [SerializeField] GameObject _winPanel = null;
+    [SerializeField] GameObject _pausePanel = null;
+    [SerializeField] GameObject _resumeButton = null;
+
 
     private Player _player;
 
@@ -35,6 +43,21 @@ public class UIManager : MonoBehaviour
 
         if (!_selectionImage)
             Debug.LogError(name + ": Selection Image transform not assigned!");
+
+        if (!_key)
+            Debug.LogError(name + ": Key image GameObject not assigned!");
+
+        if (!_objective)
+            Debug.LogError(name + ": Objective text GameObject not assigned!");
+
+        if (!_winPanel)
+            Debug.LogError(name + ": Win panel GameObject not assigned!");
+
+        if (!_pausePanel)
+            Debug.LogError(name + ": Pause panel GameObject not assigned!");
+
+        if (!_resumeButton)
+            Debug.LogError(name + ": Resume button GameObject not assigned!");
     }
 
     private void Start()
@@ -66,6 +89,70 @@ public class UIManager : MonoBehaviour
             else
             {
                 _healthBars[i].SetActive(false);
+            }
+        }
+    }
+
+    public void BoughtKey()
+    {
+        _key.SetActive(true);
+    }
+
+    public bool HasKey()
+    {
+        return _key.activeSelf;
+    }
+
+    public void DisplayObjective()
+    {
+        _objective.SetActive(true);
+        StartCoroutine(FadeMessage(_objective));
+    }
+
+    private IEnumerator FadeMessage(GameObject gameObj)
+    {
+        yield return new WaitForSeconds(_messageDisplayDuration);
+        gameObj.SetActive(false);
+    }
+
+    public void Win()
+    {
+        _winPanel.SetActive(true);
+
+        // Pause
+    }
+
+    public void ReloadGame()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void Quit()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+		Application.Quit();
+        #endif
+    }
+
+    public void TogglePause()
+    {
+        if (_winPanel.activeSelf)
+        {
+            _resumeButton.SetActive(false);
+        }
+        else
+        {
+            _pausePanel.SetActive(!_pausePanel.activeSelf);
+
+            if (_pausePanel.activeSelf)
+            {
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = 1;
             }
         }
     }
